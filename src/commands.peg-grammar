@@ -1,0 +1,6 @@
+Command := '!fate' SubCommand
+SubCommand := RollCommand | ToasterCommand
+
+RollCommand := 'roll'
+
+ToasterCommand := 'toaster'
