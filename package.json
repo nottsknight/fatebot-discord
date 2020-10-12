@@ -2,6 +2,10 @@
   "name": "fatebot-discord",
   "version": "0.1.0",
   "description": "A Discord bot for helping play games of FATE",
+  "repository": {
+    "type": "git",
+    "url": "github:nottsknight/fatebot-discord"
+  },
   "main": "build/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
