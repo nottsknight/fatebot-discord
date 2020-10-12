@@ -1,6 +1,9 @@
 import {Client, Message} from 'discord.js';
 import {parse} from './parser';
 
+const DEBUG = true;
+
+/** A Discord bot that helps running a game of FATE. */
 class FateBot {
   private client: Client;
 
@@ -24,12 +27,23 @@ class FateBot {
     if (!content.startsWith('!fate ')) return null;
 
     const parseResult = parse(msg.content);
-    if (parseResult) return 'Not a recognised command';
-    return null;
+    if (parseResult.err) {
+      return 'Not a recognised command';
+    } else {
+      switch (parseResult.ast?.kind) {
+        default:
+          return 'Parse success';
+      }
+    }
   }
 
+  /** Launch the bot. */
   start() {
-    this.client.login();
+    const result = parse('!fate roll +1');
+    console.log(result);
+    if (!DEBUG) {
+      this.client.login();
+    }
   }
 }
 

@@ -1,6 +1,5 @@
-Command := '!fate' SubCommand
-SubCommand := RollCommand | ToasterCommand
+Command  := '!fate ' { Roll | Toaster }
 
-RollCommand := 'roll'
+Roll     := 'roll ' mod='[+-]\d+'?
 
-ToasterCommand := 'toaster'
+Toaster  := 'toaster'
