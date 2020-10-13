@@ -1,11 +1,14 @@
 import {Client, Message} from 'discord.js';
-import {parse} from './parser';
+import {disconnect} from 'process';
+import {DiceRoller} from './dice';
+import {parse, Roll} from './parser';
 
 const DEBUG = true;
 
 /** A Discord bot that helps running a game of FATE. */
 class FateBot {
   private client: Client;
+  private roller = new DiceRoller();
 
   constructor() {
     this.client = new Client();
@@ -31,10 +34,15 @@ class FateBot {
       return 'Not a recognised command';
     } else {
       const cmd = parseResult.ast?.subcmd;
-      if (cmd instanceof String) {
+      if (cmd === undefined) {
+        return 'Not a recognised command';
+      } else if (cmd instanceof String) {
         return 'I am a toaster';
       } else {
-        return 'Something';
+        const rollCmd = cmd as Roll;
+        const mod = rollCmd.mod ? parseInt(rollCmd.mod) : 0;
+        const diceRoll = this.roller.roll(mod);
+        return diceRoll.message;
       }
     }
   }
@@ -42,7 +50,7 @@ class FateBot {
   /** Launch the bot. */
   start() {
     if (DEBUG) {
-      const result = parse('!fate roll +1');
+      const result = parse('!fate toaster');
       console.log(result);
     } else {
       console.log('Logging in');
