@@ -2,15 +2,14 @@ import {Client, Message} from 'discord.js';
 import {DiceRoller} from './dice';
 import {parse, Roll} from './parser';
 
-const DEBUG = true;
-const DEBUG_MSG = '!fate roll +1';
-
 /** A Discord bot that helps running a game of FATE. */
-class FateBot {
+export class FateBot {
+  private DEBUG_MSG = '!fate roll +1';
+
   private client: Client;
   private roller = new DiceRoller();
 
-  constructor() {
+  constructor(private DEBUG = false) {
     this.client = new Client();
     this.client.on('ready', this.onReady);
     this.client.on('message', this.onMessage);
@@ -48,8 +47,8 @@ class FateBot {
 
   /** Launch the bot. */
   start() {
-    if (DEBUG) {
-      this.handleMessage(DEBUG_MSG).then(reply => {
+    if (this.DEBUG) {
+      this.handleMessage(this.DEBUG_MSG).then(reply => {
         if (reply) console.log(reply);
       });
     } else {
@@ -59,5 +58,5 @@ class FateBot {
   }
 }
 
-const bot = new FateBot();
+const bot = new FateBot(true);
 bot.start();
