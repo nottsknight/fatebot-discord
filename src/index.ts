@@ -30,18 +30,22 @@ class FateBot {
     if (parseResult.err) {
       return 'Not a recognised command';
     } else {
-      switch (parseResult.ast?.kind) {
-        default:
-          return 'Parse success';
+      const cmd = parseResult.ast?.subcmd;
+      if (cmd instanceof String) {
+        return 'I am a toaster';
+      } else {
+        return 'Something';
       }
     }
   }
 
   /** Launch the bot. */
   start() {
-    const result = parse('!fate roll +1');
-    console.log(result);
-    if (!DEBUG) {
+    if (DEBUG) {
+      const result = parse('!fate roll +1');
+      console.log(result);
+    } else {
+      console.log('Logging in');
       this.client.login();
     }
   }
