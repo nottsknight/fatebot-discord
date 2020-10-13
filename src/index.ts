@@ -3,6 +3,7 @@ import {DiceRoller} from './dice';
 import {parse, Roll} from './parser';
 
 const DEBUG = true;
+const DEBUG_MSG = '!fate roll +1';
 
 /** A Discord bot that helps running a game of FATE. */
 class FateBot {
@@ -20,15 +21,14 @@ class FateBot {
   }
 
   private async onMessage(msg: Message) {
-    const response = await this.handleMessage(msg);
+    const response = await this.handleMessage(msg.content);
     if (response) msg.reply(response);
   }
 
-  private async handleMessage(msg: Message): Promise<string | null> {
-    const content = msg.content;
-    if (!content.startsWith('!fate ')) return null;
+  private async handleMessage(msg: string): Promise<string | null> {
+    if (!msg.startsWith('!fate ')) return null;
 
-    const parseResult = parse(msg.content);
+    const parseResult = parse(msg);
     if (parseResult.err) {
       return 'Not a recognised command';
     } else {
@@ -49,8 +49,9 @@ class FateBot {
   /** Launch the bot. */
   start() {
     if (DEBUG) {
-      const result = parse('!fate toaster');
-      console.log(result);
+      this.handleMessage(DEBUG_MSG).then(reply => {
+        if (reply) console.log(reply);
+      });
     } else {
       console.log('Logging in');
       this.client.login();

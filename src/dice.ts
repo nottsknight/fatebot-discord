@@ -1,8 +1,12 @@
 export class DiceRoll {
-  constructor(public score: number, public rolls: string[]) {}
+  constructor(
+    public score: number,
+    public mod: number,
+    public rolls: string[]
+  ) {}
 
   get message(): string {
-    return `You rolled a ${this.score}! ${this.rolls}`;
+    return `You rolled a ${this.score}: [${this.rolls}] with a ${this.mod} modifier`;
   }
 }
 
@@ -17,6 +21,7 @@ export class DiceRoller {
 
     return new DiceRoll(
       rolls.reduce((sum, n) => sum + n, 0) + mod,
+      mod,
       rolls.map(r => this.mapDieToFace(r))
     );
   }
