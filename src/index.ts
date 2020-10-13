@@ -1,5 +1,4 @@
 import {Client, Message} from 'discord.js';
-import {disconnect} from 'process';
 import {DiceRoller} from './dice';
 import {parse, Roll} from './parser';
 
